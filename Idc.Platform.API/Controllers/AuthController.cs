@@ -5,18 +5,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Idc.Platform.API.Controllers
 {
+    /// <summary>
+    /// Controller responsible for authentication operations
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly JwtTokenService _jwtTokenService;
 
+        /// <summary>
+        /// Constructor that injects the JWT token service
+        /// </summary>
+        /// <param name="jwtTokenService">Service for generating JWT tokens</param>
         public AuthController(JwtTokenService jwtTokenService)
         {
             _jwtTokenService = jwtTokenService;
         }
 
-        [AllowAnonymous]
+        /// <summary>
+        /// Authenticates a user and returns a JWT token
+        /// </summary>
+        /// <param name="request">Authentication request containing username and password</param>
+        /// <returns>JWT token response if authentication is successful, otherwise 401 Unauthorized</returns>
+        [AllowAnonymous] // Allows this endpoint to be accessed without authentication
         [HttpPost("login")]
         public ActionResult<AuthenticationResponse> Login([FromBody] AuthenticationRequest request)
         {
@@ -27,7 +39,6 @@ namespace Idc.Platform.API.Controllers
                 var token = _jwtTokenService.GenerateToken(request.Username);
                 return Ok(token);
             }
-
             return Unauthorized();
         }
     }

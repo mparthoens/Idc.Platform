@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Idc.Platform.API.Controllers
 {
+    /// <summary>
+    /// Controller for managing EPN synchronization logs
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     // No need to add [Authorize] here since we've set the FallbackPolicy in Program.cs
@@ -15,17 +18,30 @@ namespace Idc.Platform.API.Controllers
     {
         private readonly IMediator _mediator;
 
+        /// <summary>
+        /// Constructor that injects the MediatR mediator
+        /// </summary>
+        /// <param name="mediator">MediatR mediator for handling commands and queries</param>
         public EpnSyncLogsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Retrieves all EPN synchronization logs
+        /// </summary>
+        /// <returns>List of EPN synchronization log DTOs</returns>
         [HttpGet]
         public async Task<ActionResult<List<EpnSyncLogDto>>> Get()
         {
             return await _mediator.Send(new GetEpnSyncLogsQuery());
         }
 
+        /// <summary>
+        /// Creates a new EPN synchronization log
+        /// </summary>
+        /// <param name="command">Command containing the log data to create</param>
+        /// <returns>ID of the created log entry</returns>
         [HttpPost]
         public async Task<ActionResult<int>> Create(CreateEpnSyncLogCommand command)
         {
