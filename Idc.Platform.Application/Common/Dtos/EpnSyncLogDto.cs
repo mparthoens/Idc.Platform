@@ -1,6 +1,6 @@
-﻿namespace Idc.Platform.Domain.Entities
+namespace Idc.Platform.Application.Common.Dtos
 {
-    public class EpnSyncLog
+    public class EpnSyncLogDto
     {
         public int Id { get; set; }
         public string? TransactionType { get; set; }

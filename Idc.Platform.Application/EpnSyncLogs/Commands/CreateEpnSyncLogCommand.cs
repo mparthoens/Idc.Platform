@@ -1,6 +1,8 @@
-﻿namespace Idc.Platform.Domain.Entities
+using MediatR;
+
+namespace Idc.Platform.Application.EpnSyncLogs.Commands
 {
-    public class EpnSyncLog
+    public class CreateEpnSyncLogCommand : IRequest<int>
     {
         public int Id { get; set; }
         public string? TransactionType { get; set; }

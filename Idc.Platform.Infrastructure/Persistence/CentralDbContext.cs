@@ -1,126 +1,126 @@
-﻿using Idc.Platform.Application.Common.Interfaces;
+using Idc.Platform.Application.Common.Interfaces;
 using Idc.Platform.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace Idc.Platform.Infrastructure.Persistence;
 
-public class CentralDbContext(DbContextOptions<CentralDbContext> options) : IdentityDbContext<AspNetUser>(options), IApplicationDbContext
+public class CentralDbContext(DbContextOptions<CentralDbContext> options)
+    : IdentityDbContext<AspNetUser>(options), IApplicationDbContext, IEpnSyncLogDbContext
 {
-  public virtual DbSet<Animal> Animals { get; set; }
-  public virtual DbSet<AnimalAction> AnimalActions { get; set; }
-  public virtual DbSet<AnimalActionType> AnimalActionTypes { get; set; }
-  public virtual DbSet<AnimalBreed> AnimalBreeds { get; set; }
-  public virtual DbSet<AnimalCoat> AnimalCoats { get; set; }
-  public virtual DbSet<AnimalColor> AnimalColors { get; set; }
-  public virtual DbSet<AnimalFinalCertificatePrintLog> AnimalFinalCertificatePrintLogs { get; set; }
-  public virtual DbSet<AnimalOrganisationAssociation> AnimalOrganisationAssociations { get; set; }
-  public virtual DbSet<AnimalOwnerLog> AnimalOwnerLogs { get; set; }
-  public virtual DbSet<Association> Associations { get; set; }
-  public virtual DbSet<Country> Countries { get; set; }
-  public virtual DbSet<EmailCampaign> EmailCampaigns { get; set; }
-  public virtual DbSet<EmailCampaignUniqueId> EmailCampaignUniqueIds { get; set; }
-  public virtual DbSet<EpnSyncLog> EpnSyncLogs { get; set; }
-  public virtual DbSet<Identification> Identifications { get; set; }
-  public virtual DbSet<IdentificationLocalisation> IdentificationLocalisations { get; set; }
-  public virtual DbSet<IdentificationType> IdentificationTypes { get; set; }
-  public virtual DbSet<Identifier> Identifiers { get; set; }
-  public virtual DbSet<Language> Languages { get; set; }
-  public virtual DbSet<MailjetStatus> MailjetStatuses { get; set; }
-  public virtual DbSet<MailjetTemp> MailjetTemps { get; set; }
-  public virtual DbSet<Organisation> Organisations { get; set; }
-  public virtual DbSet<Owner> Owners { get; set; }
-  public virtual DbSet<OwnerAddressLog> OwnerAddressLogs { get; set; }
-  public virtual DbSet<Passport> Passports { get; set; }
-  public virtual DbSet<PostalAddress> PostalAddresses { get; set; }
-  public virtual DbSet<PostalCode> PostalCodes { get; set; }
-  public virtual DbSet<RefAnimalColor> RefAnimalColors { get; set; }
-  public virtual DbSet<RefBreedName> RefBreedNames { get; set; }
-  public virtual DbSet<RefCoatName> RefCoatNames { get; set; }
-  public virtual DbSet<RefSpeciesName> RefSpeciesNames { get; set; }
-  public virtual DbSet<RefSpecies> RefSpecies { get; set; }
-  public virtual DbSet<Title> Titles { get; set; }
-  public virtual DbSet<User> AppUsers { get; set; }
+    public virtual DbSet<Animal> Animals { get; set; }
+    public virtual DbSet<AnimalAction> AnimalActions { get; set; }
+    public virtual DbSet<AnimalActionType> AnimalActionTypes { get; set; }
+    public virtual DbSet<AnimalBreed> AnimalBreeds { get; set; }
+    public virtual DbSet<AnimalCoat> AnimalCoats { get; set; }
+    public virtual DbSet<AnimalColor> AnimalColors { get; set; }
+    public virtual DbSet<AnimalFinalCertificatePrintLog> AnimalFinalCertificatePrintLogs { get; set; }
+    public virtual DbSet<AnimalOrganisationAssociation> AnimalOrganisationAssociations { get; set; }
+    public virtual DbSet<AnimalOwnerLog> AnimalOwnerLogs { get; set; }
+    public virtual DbSet<Association> Associations { get; set; }
+    public virtual DbSet<Country> Countries { get; set; }
+    public virtual DbSet<EmailCampaign> EmailCampaigns { get; set; }
+    public virtual DbSet<EmailCampaignUniqueId> EmailCampaignUniqueIds { get; set; }
+    public virtual DbSet<EpnSyncLog> EpnSyncLogs { get; set; }
+    public virtual DbSet<Identification> Identifications { get; set; }
+    public virtual DbSet<IdentificationLocalisation> IdentificationLocalisations { get; set; }
+    public virtual DbSet<IdentificationType> IdentificationTypes { get; set; }
+    public virtual DbSet<Identifier> Identifiers { get; set; }
+    public virtual DbSet<Language> Languages { get; set; }
+    public virtual DbSet<MailjetStatus> MailjetStatuses { get; set; }
+    public virtual DbSet<MailjetTemp> MailjetTemps { get; set; }
+    public virtual DbSet<Organisation> Organisations { get; set; }
+    public virtual DbSet<Owner> Owners { get; set; }
+    public virtual DbSet<OwnerAddressLog> OwnerAddressLogs { get; set; }
+    public virtual DbSet<Passport> Passports { get; set; }
+    public virtual DbSet<PostalAddress> PostalAddresses { get; set; }
+    public virtual DbSet<PostalCode> PostalCodes { get; set; }
+    public virtual DbSet<RefAnimalColor> RefAnimalColors { get; set; }
+    public virtual DbSet<RefBreedName> RefBreedNames { get; set; }
+    public virtual DbSet<RefCoatName> RefCoatNames { get; set; }
+    public virtual DbSet<RefSpeciesName> RefSpeciesNames { get; set; }
+    public virtual DbSet<RefSpecies> RefSpecies { get; set; }
+    public virtual DbSet<Title> Titles { get; set; }
+    public virtual DbSet<User> AppUsers { get; set; }
 
-  public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-  {
-    return base.SaveChangesAsync(cancellationToken);
-  }
-
-  protected override void OnModelCreating(ModelBuilder modelBuilder)
-  {
-    base.OnModelCreating(modelBuilder);
-    modelBuilder.Entity<Animal>(entity =>
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-      entity.HasKey(e => e.Id).HasName("PK__tmp_ms_x__3213E83FEBBD8F8B");
-      entity.ToTable("animal", tb =>
-            {
-            tb.HasTrigger("tg_animal_audit");
-            tb.HasTrigger("tg_animal_cascade_delete");
-          });
-      entity.HasIndex(e => e.AssociationId, "IDX_animal_association_id");
-      entity.HasIndex(e => e.LastOrganisationId, "IDX_animal_last_organisation_id");
-      entity.HasIndex(e => e.LastUserId, "IDX_animal_last_user_id");
-      entity.HasIndex(e => e.OwnerId, "IDX_animal_owner_id");
-      entity.Property(e => e.Id).HasColumnName("id");
-      entity.Property(e => e.AssociationId).HasColumnName("association_id");
-      entity.Property(e => e.BatchPrint).HasColumnName("batch_print");
-      entity.Property(e => e.Birthdate).HasColumnName("birthdate");
-      entity.Property(e => e.Breeding).HasColumnName("breeding");
-      entity.Property(e => e.DateInsert)
-            .HasColumnType("datetime")
-            .HasColumnName("date_insert");
-      entity.Property(e => e.DateUpdate)
-            .HasColumnType("datetime")
-            .HasColumnName("date_update");
-      entity.Property(e => e.Deceased).HasColumnName("deceased");
-      entity.Property(e => e.DistinguishingMarks).HasColumnName("distinguishing_marks");
-      entity.Property(e => e.Exported).HasColumnName("exported");
-      entity.Property(e => e.Gender)
-            .HasMaxLength(10)
-            .HasColumnName("gender");
-      entity.Property(e => e.LastOrganisationId).HasColumnName("last_organisation_id");
-      entity.Property(e => e.LastUserId).HasColumnName("last_user_id");
-      entity.Property(e => e.Lost).HasColumnName("lost");
-      entity.Property(e => e.Name)
-            .HasMaxLength(60)
-            .HasColumnName("name");
-      entity.Property(e => e.OldIntroductionNumber).HasColumnName("old_introduction_number");
-      entity.Property(e => e.OldIntroductionNumberOwner).HasColumnName("old_introduction_number_owner");
-      entity.Property(e => e.OldStationNumber).HasColumnName("old_station_number");
-      entity.Property(e => e.OldStationNumberOwner).HasColumnName("old_station_number_owner");
-      entity.Property(e => e.OwnerId).HasColumnName("owner_id");
-      entity.Property(e => e.Pending).HasColumnName("pending");
-      entity.Property(e => e.Species)
-            .HasMaxLength(100)
-              .HasColumnName("species");
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Animal>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__tmp_ms_x__3213E83FEBBD8F8B");
+            entity.ToTable("animal", tb =>
+              {
+                  tb.HasTrigger("tg_animal_audit");
+                  tb.HasTrigger("tg_animal_cascade_delete");
+              });
+            entity.HasIndex(e => e.AssociationId, "IDX_animal_association_id");
+            entity.HasIndex(e => e.LastOrganisationId, "IDX_animal_last_organisation_id");
+            entity.HasIndex(e => e.LastUserId, "IDX_animal_last_user_id");
+            entity.HasIndex(e => e.OwnerId, "IDX_animal_owner_id");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AssociationId).HasColumnName("association_id");
+            entity.Property(e => e.BatchPrint).HasColumnName("batch_print");
+            entity.Property(e => e.Birthdate).HasColumnName("birthdate");
+            entity.Property(e => e.Breeding).HasColumnName("breeding");
+            entity.Property(e => e.DateInsert)
+              .HasColumnType("datetime")
+              .HasColumnName("date_insert");
+            entity.Property(e => e.DateUpdate)
+              .HasColumnType("datetime")
+              .HasColumnName("date_update");
+            entity.Property(e => e.Deceased).HasColumnName("deceased");
+            entity.Property(e => e.DistinguishingMarks).HasColumnName("distinguishing_marks");
+            entity.Property(e => e.Exported).HasColumnName("exported");
+            entity.Property(e => e.Gender)
+              .HasMaxLength(10)
+              .HasColumnName("gender");
+            entity.Property(e => e.LastOrganisationId).HasColumnName("last_organisation_id");
+            entity.Property(e => e.LastUserId).HasColumnName("last_user_id");
+            entity.Property(e => e.Lost).HasColumnName("lost");
+            entity.Property(e => e.Name)
+              .HasMaxLength(60)
+              .HasColumnName("name");
+            entity.Property(e => e.OldIntroductionNumber).HasColumnName("old_introduction_number");
+            entity.Property(e => e.OldIntroductionNumberOwner).HasColumnName("old_introduction_number_owner");
+            entity.Property(e => e.OldStationNumber).HasColumnName("old_station_number");
+            entity.Property(e => e.OldStationNumberOwner).HasColumnName("old_station_number_owner");
+            entity.Property(e => e.OwnerId).HasColumnName("owner_id");
+            entity.Property(e => e.Pending).HasColumnName("pending");
+            entity.Property(e => e.Species)
+              .HasMaxLength(100)
+                .HasColumnName("species");
             entity.Property(e => e.Sterilized).HasColumnName("sterilized");
             entity.Property(e => e.Stolen).HasColumnName("stolen");
             entity.Property(e => e.Temporary).HasColumnName("temporary");
             entity.Property(e => e.ToPrint).HasColumnName("to_print");
             entity.Property(e => e.Unknown).HasColumnName("unknown");
             entity.Property(e => e.Validated)
-              .HasDefaultValue(true)
-              .HasColumnName("validated");
+          .HasDefaultValue(true)
+          .HasColumnName("validated");
 
             entity.HasOne(d => d.Association).WithMany(p => p.Animals)
-              .HasForeignKey(d => d.AssociationId)
-              .HasConstraintName("FK__animal__associat__0E44098D");
+          .HasForeignKey(d => d.AssociationId)
+          .HasConstraintName("FK__animal__associat__0E44098D");
 
             entity.HasOne(d => d.LastOrganisation).WithMany(p => p.Animals)
-              .HasForeignKey(d => d.LastOrganisationId)
-              .OnDelete(DeleteBehavior.ClientSetNull)
-              .HasConstraintName("FK__animal__last_org__0F382DC6");
+          .HasForeignKey(d => d.LastOrganisationId)
+          .OnDelete(DeleteBehavior.ClientSetNull)
+          .HasConstraintName("FK__animal__last_org__0F382DC6");
 
             entity.HasOne(d => d.LastUser).WithMany(p => p.Animals)
-              .HasForeignKey(d => d.LastUserId)
-              .HasConstraintName("FK__animal__last_use__102C51FF");
+          .HasForeignKey(d => d.LastUserId)
+          .HasConstraintName("FK__animal__last_use__102C51FF");
 
             entity.HasOne(d => d.Owner).WithMany(p => p.Animals)
-              .HasForeignKey(d => d.OwnerId)
-              .HasConstraintName("FK__animal__owner_id__3FDB6521");
+          .HasForeignKey(d => d.OwnerId)
+          .HasConstraintName("FK__animal__owner_id__3FDB6521");
         });
 
         modelBuilder.Entity<AnimalAction>(entity =>
