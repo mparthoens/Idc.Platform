@@ -7,11 +7,12 @@ namespace Idc.Platform.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize] // This is redundant with the global FallbackPolicy but kept for clarity
     public abstract class ApiControllerBase : ControllerBase
     {
         private IMediator? _mediator;
 
+        // Lazy-loaded mediator instance
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<IMediator>();
     }
 }

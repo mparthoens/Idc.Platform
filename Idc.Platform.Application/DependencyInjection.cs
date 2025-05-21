@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
+using AutoMapper;
 
 namespace Idc.Platform.Application
 {
@@ -8,8 +9,16 @@ namespace Idc.Platform.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            // For MediatR 11.x
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            // Configure AutoMapper manually
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddMaps(Assembly.GetExecutingAssembly());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             return services;
         }

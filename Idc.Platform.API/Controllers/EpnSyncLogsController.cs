@@ -10,6 +10,7 @@ namespace Idc.Platform.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    // No need to add [Authorize] here since we've set the FallbackPolicy in Program.cs
     public class EpnSyncLogsController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -3,6 +3,7 @@ using Idc.Platform.Application.Common.Interfaces;
 using Idc.Platform.Infrastructure.Persistence;
 using Idc.Platform.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<CentralDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register the IEpnSyncLogDbContext interface with the CentralDbContext implementation
-builder.Services.AddScoped<IEpnSyncLogDbContext>(provider => 
+builder.Services.AddScoped<IEpnSyncLogDbContext>(provider =>
     provider.GetRequiredService<CentralDbContext>());
 
 // Register the JWT token service
@@ -33,8 +34,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
+}).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -48,12 +48,20 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Configure Authorization - require authentication for all endpoints by default
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Idc.Platform API", Version = "v1" });
-    
+
     // Configure Swagger to use JWT Authentication
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -63,7 +71,6 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
