@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Idc.Platform.Infrastructure.Persistence;
 
 public class CentralDbContext(DbContextOptions<CentralDbContext> options)
-    : IdentityDbContext<AspNetUser>(options), IApplicationDbContext, IEpnSyncLogDbContext
+    : IdentityDbContext<AspNetUser>(options), IApplicationDbContext, IEpnSyncDbContext
 {
     public virtual DbSet<Animal> Animals { get; set; }
     public virtual DbSet<AnimalAction> AnimalActions { get; set; }
@@ -22,7 +22,7 @@ public class CentralDbContext(DbContextOptions<CentralDbContext> options)
     public virtual DbSet<Country> Countries { get; set; }
     public virtual DbSet<EmailCampaign> EmailCampaigns { get; set; }
     public virtual DbSet<EmailCampaignUniqueId> EmailCampaignUniqueIds { get; set; }
-    public virtual DbSet<EpnSyncLog> EpnSyncLogs { get; set; }
+    public virtual DbSet<EpnSync> EpnSyncs { get; set; }
     public virtual DbSet<Identification> Identifications { get; set; }
     public virtual DbSet<IdentificationLocalisation> IdentificationLocalisations { get; set; }
     public virtual DbSet<IdentificationType> IdentificationTypes { get; set; }
@@ -456,12 +456,12 @@ public class CentralDbContext(DbContextOptions<CentralDbContext> options)
               .HasColumnName("recipient_email");
         });
 
-        modelBuilder.Entity<EpnSyncLog>(entity =>
+        modelBuilder.Entity<EpnSync>(entity =>
         {
             entity
-            .HasKey(e => e.Id).HasName("PK_EpnSyncLog");
+            .HasKey(e => e.Id).HasName("PK_EpnSync");
             entity
-            .ToTable("EpnSyncLog");
+            .ToTable("EpnSync");
             entity.Property(e => e.Id).HasColumnName("Id");
             entity.Property(e => e.TransactionType).HasColumnName("TransactionType");
             entity.Property(e => e.MemberCode).HasColumnName("MemberCode");

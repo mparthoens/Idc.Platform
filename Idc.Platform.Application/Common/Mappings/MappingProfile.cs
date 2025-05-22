@@ -9,8 +9,9 @@ namespace Idc.Platform.Application.Common.Mappings
         public MappingProfile()
         {
             // Add your mappings here
-            CreateMap<EpnSyncLog, EpnSyncLogDto>();
+            CreateMap<EpnSync, EpnSyncDto>();
 
         }
     }
 }
+

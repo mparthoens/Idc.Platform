@@ -1,6 +1,6 @@
 using Idc.Platform.Application.Common.Dtos;
-using Idc.Platform.Application.EpnSyncLogs.Commands;
-using Idc.Platform.Application.EpnSyncLogs.Queries;
+using Idc.Platform.Application.EpnSyncs.Commands;
+using Idc.Platform.Application.EpnSyncs.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace Idc.Platform.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     // No need to add [Authorize] here since we've set the FallbackPolicy in Program.cs
-    public class EpnSyncLogsController : ControllerBase
+    public class EpnSyncsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -22,7 +22,7 @@ namespace Idc.Platform.API.Controllers
         /// Constructor that injects the MediatR mediator
         /// </summary>
         /// <param name="mediator">MediatR mediator for handling commands and queries</param>
-        public EpnSyncLogsController(IMediator mediator)
+        public EpnSyncsController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -32,9 +32,9 @@ namespace Idc.Platform.API.Controllers
         /// </summary>
         /// <returns>List of EPN synchronization log DTOs</returns>
         [HttpGet]
-        public async Task<ActionResult<List<EpnSyncLogDto>>> Get()
+        public async Task<ActionResult<List<EpnSyncDto>>> Get()
         {
-            return await _mediator.Send(new GetEpnSyncLogsQuery());
+            return await _mediator.Send(new GetEpnSyncsQuery());
         }
 
         /// <summary>
@@ -43,9 +43,11 @@ namespace Idc.Platform.API.Controllers
         /// <param name="command">Command containing the log data to create</param>
         /// <returns>ID of the created log entry</returns>
         [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateEpnSyncLogCommand command)
+        public async Task<ActionResult<int>> Create(CreateEpnSyncCommand command)
         {
             return await _mediator.Send(command);
         }
     }
 }
+
+

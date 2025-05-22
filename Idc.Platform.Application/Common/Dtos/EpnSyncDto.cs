@@ -1,6 +1,6 @@
 namespace Idc.Platform.Application.Common.Dtos
 {
-    public class EpnSyncLogDto
+    public class EpnSyncDto
     {
         public int Id { get; set; }
         public string? TransactionType { get; set; }
@@ -18,3 +18,4 @@ namespace Idc.Platform.Application.Common.Dtos
         public string? ErrorCodeList { get; set; }
     }
 }
+

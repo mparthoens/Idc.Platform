@@ -20,7 +20,7 @@ namespace Idc.Platform.Application.Common.Interfaces
         DbSet<Country> Countries { get; }
         DbSet<EmailCampaign> EmailCampaigns { get; }
         DbSet<EmailCampaignUniqueId> EmailCampaignUniqueIds { get; }
-        DbSet<EpnSyncLog> EpnSyncLogs { get; }
+        DbSet<EpnSync> EpnSyncs { get; }
         DbSet<Identification> Identifications { get; }
         DbSet<IdentificationLocalisation> IdentificationLocalisations { get; }
         DbSet<IdentificationType> IdentificationTypes { get; }
@@ -45,3 +45,4 @@ namespace Idc.Platform.Application.Common.Interfaces
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
+

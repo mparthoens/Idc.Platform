@@ -23,9 +23,9 @@ builder.Services.AddDbContext<CentralDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register the IEpnSyncLogDbContext interface with the CentralDbContext implementation
+// Register the IEpnSyncDbContext interface with the CentralDbContext implementation
 // This allows for dependency injection of the database context through its interface
-builder.Services.AddScoped<IEpnSyncLogDbContext>(provider =>
+builder.Services.AddScoped<IEpnSyncDbContext>(provider =>
     provider.GetRequiredService<CentralDbContext>());
 
 // Register the JWT token service for authentication token generation
@@ -133,3 +133,4 @@ app.MapControllers();
 
 // Start the application
 app.Run();
+

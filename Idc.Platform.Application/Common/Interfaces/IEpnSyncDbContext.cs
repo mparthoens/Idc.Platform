@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace Idc.Platform.Application.Common.Interfaces
 {
-    public interface IEpnSyncLogDbContext
+    public interface IEpnSyncDbContext
     {
-        DbSet<EpnSyncLog> EpnSyncLogs { get; set; }
+        DbSet<EpnSync> EpnSyncs { get; set; }
         
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
+
+
