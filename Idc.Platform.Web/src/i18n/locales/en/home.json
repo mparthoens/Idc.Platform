@@ -1,0 +1,16 @@
+{
+	"title": "Welcome to ID Chips",
+	"subtitle": "Comprehensive Animal Identification Management",
+	"content": "ID Chips provides a secure and reliable platform for managing companion animal identification. Our system helps owners, veterinarians, and authorities keep track of animal information efficiently.",
+	"features": {
+		"title": "Key Features",
+		"registration": "Easy animal registration",
+		"tracking": "Secure identification tracking",
+		"management": "Comprehensive data management",
+		"recovery": "Lost animal recovery support"
+	},
+	"cta": {
+		"register": "Register Your Pet",
+		"learn": "Learn More"
+	}
+}

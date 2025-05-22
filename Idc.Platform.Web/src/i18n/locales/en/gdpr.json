@@ -1,0 +1,27 @@
+{
+	"title": "GDPR Compliance",
+	"subtitle": "Privacy and Data Protection",
+	"content": "At ID Chips, we take your privacy and data protection seriously. We are fully compliant with the General Data Protection Regulation (GDPR) and are committed to ensuring the security and privacy of all personal data we process.",
+	"sections": {
+		"dataCollection": {
+			"title": "Data We Collect",
+			"content": "We collect only the information necessary to provide our services, including personal details, contact information, and animal identification data."
+		},
+		"dataUse": {
+			"title": "How We Use Your Data",
+			"content": "Your data is used solely for the purpose of animal identification, tracking, and the services you explicitly request."
+		},
+		"dataProtection": {
+			"title": "How We Protect Your Data",
+			"content": "We implement robust security measures to protect your data from unauthorized access, alteration, or disclosure."
+		},
+		"yourRights": {
+			"title": "Your Rights",
+			"content": "Under GDPR, you have the right to access, correct, delete, or restrict the processing of your personal data."
+		}
+	},
+	"contact": {
+		"title": "Data Protection Inquiries",
+		"content": "For any questions regarding our data protection practices or to exercise your rights under GDPR, please contact our Data Protection Officer at dpo@idchips.com."
+	}
+}

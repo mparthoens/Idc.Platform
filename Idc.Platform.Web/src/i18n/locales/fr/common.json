@@ -1,0 +1,11 @@
+{
+	"navigation": {
+		"home": "Accueil",
+		"contact": "Contact",
+		"gdpr": "RGPD"
+	},
+	"language": {
+		"en": "Anglais",
+		"fr": "Français"
+	}
+}

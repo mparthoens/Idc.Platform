@@ -1,0 +1,24 @@
+{
+	"appName": "ID Chips",
+	"navigation": {
+		"home": "Home",
+		"contact": "Contact",
+		"gdpr": "GDPR"
+	},
+	"language": {
+		"en": "English",
+		"fr": "Français",
+		"nl": "Nederlands",
+		"de": "Deutsch"
+	},
+	"buttons": {
+		"submit": "Submit",
+		"cancel": "Cancel",
+		"save": "Save",
+		"delete": "Delete"
+	},
+	"theme": {
+		"switchToLight": "Switch to light theme",
+		"switchToDark": "Switch to dark theme"
+	}
+}

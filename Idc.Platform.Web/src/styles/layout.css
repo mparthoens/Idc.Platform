@@ -1,0 +1,15 @@
+/* Center the main content area on large screens */
+.main-content-centered {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* For very large screens, add some visual separation */
+@media (min-width: 1600px) {
+  .main-content-centered {
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+  }
+}
